@@ -1,0 +1,31 @@
+@import "util";
+//总列数
+@grid-columns: 12;
+//列之间的间隙
+@grid-gutter-width: 6px;
+//grid距离两边的距离
+@grid-offset: 10px;
+//栅格名称
+@grid-name: grid;
+
+.@{grid-name} {
+    padding: 0 @grid-offset;
+    margin-left: 0 - @grid-gutter-width;
+    .fix;
+    vertical-align: middle;
+
+    [class^="col-"] {
+        float: left;
+        margin-left: @grid-gutter-width;
+    }
+}
+
+.makeCommonGrid(@index) when (@index <= @grid-columns ) {
+    @width: @index/@grid-columns * 100%;
+    .@{grid-name} .col-@{index} {
+        width: calc(~"@{width} - @{grid-gutter-width}");
+    }
+    .makeCommonGrid(@index + 1);
+}
+
+.makeCommonGrid(1);
