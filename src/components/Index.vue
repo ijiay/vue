@@ -8,7 +8,7 @@
         </div>
 
         <div class="promotion">
-            <img src="../assets/index/ad1.jpg" />
+            <img src="../assets/index/hot-banner.jpg" />
         </div>
 
         <div class="grid hot-commodity">
