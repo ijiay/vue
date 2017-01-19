@@ -1,0 +1,135 @@
+@import "util";
+@import "variable";
+
+.tabbtn{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    ul{
+        .fix;
+        position: relative;
+        margin: 0 auto;
+        height: @tabbtn-height + 1px;
+        background-color: @bg-color-white;
+        .border-bottom(-1px);
+
+        li{
+            box-sizing: border-box;
+            position: relative;
+            float: left;
+            margin: 13px 0;
+            padding: 0 6px;
+            height: 23px;
+            line-height: 23px;
+            color: @font-color-two;
+            font-size: @font-size-32;
+            text-align: center;
+            .border-right(0px);
+
+            &.current {
+                color: @font-color-one;
+            }
+        }
+
+        li:last-child{
+            .border-right(0px, #fff);
+        }
+
+    }
+}
+
+.content-body{
+    padding-top: @tabbtn-height + 1px;
+    padding-bottom: 5px;
+    min-height: calc(~"100% - @{tabbtn-height} - 6px");
+    background-color: @bg-color;
+
+    .suppliers{
+        .fix;
+        margin-bottom: 5px;
+        padding: 15px 13px 15px 15px;
+        background-color: @bg-color-white;
+    }
+}
+
+.suppliers-icon{
+    float: left;
+    width: 70px;
+    margin-right: 10px;
+    img{
+        width: 70px;
+        height: 70px;
+    }
+}
+.suppliers-info{
+    float: left;
+    width: calc(~"100% - @{suppliers-side-width}*2 - 10px");
+    color: @font-color-one;
+
+    .suppliers-info-title{
+        font-size: @font-size-32;
+    }
+
+    .suppliers-info-figure{
+        font-size: @font-size-26;
+        margin: 10px 0;
+        span{
+            margin-right: 10px;
+            span{
+                color: @bg-color-blue-one;
+                margin-right: 3px;
+            }
+        }
+    }
+
+    ul{
+        .fix;
+
+        li{
+            float: left;
+            margin-right: 2px;
+            font-size: @font-size-26;
+            border: #000 solid 0.5px;
+            border-radius: 3px;
+        }
+    }
+}
+
+.suppliers-info-tags{
+    color: @font-color-two;
+    font-size: @font-size-22;
+
+    .suppliers-info-tags-tag{
+        margin-top: 10px;
+
+        .tag{
+            display: inline-block;
+            width: 13px;
+            height: 13px;
+            line-height: 13px;
+            color: #fff;
+            text-align: center;
+            border-radius: 3px;
+        }
+    }
+}
+
+.suppliers-operation{
+    float: right;
+    width: 70px;
+    color: @font-color-two;
+    font-size: @font-size-22;
+    text-align: right;
+
+    .suppliers-operation-distance{
+        margin-bottom: 44px;
+        font-size: @font-size-26;
+    }
+
+    .suppliers-operation-collect{
+        //margin-top: 38px;
+    }
+}
+

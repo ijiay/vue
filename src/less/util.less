@@ -5,7 +5,7 @@
         clear: both;
     }
 }
-
+//垂直居中
 .vertical-middle {
     position: absolute;
     top: 50%;
@@ -15,4 +15,64 @@
     -ms-transform: translateY(-50%);
     -o-transform: translateY(-50%);
     transform: translateY(-50%);
+}
+
+.transform (@t) {
+    -webkit-transform: @t;
+    -moz-transform: @t;
+    -ms-transform: @t;
+    -o-transform: @t;
+    transform: @t;
+}
+//border-bottom,下边框
+.border-bottom (@bottom: -1px, @bd-color: #ccc, @offset: 0){
+    &:after {
+        content: '';
+        position: absolute;
+        left: @offset;
+        bottom: @bottom;
+        height: 1px;
+        width: 100%;
+        background-color: @bd-color;
+
+        .transform(scaleY(0.5))
+    }
+}
+
+//border-top,上边框
+.border-top (@top: -1px, @bd-color: #ccc){
+    &:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: @top;
+        height: 1px;
+        width: 100%;
+        background-color: @bd-color;
+
+        .transform(scaleY(0.5))
+    }
+}
+
+//border-right,右边框
+.border-right (@right: -1px, @bd-color: #ccc, @offset: 0){
+    &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: @right;
+        width: 1px;
+        height: 100%;
+        background-color: @bd-color;
+
+        .transform(scaleX(0.5))
+    }
+}
+
+.transition (@t: all 0.2s) {
+    -webkit-transition: @t;
+    -moz-transition: @t;
+    -ms-transition: @t;
+    -o-transition: @t;
+    transition: @t;
 }
