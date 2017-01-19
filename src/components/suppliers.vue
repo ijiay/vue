@@ -42,7 +42,11 @@
                     </div>
                 </div>
             </div>
-
+            <infinite-loading :on-infinite="onInfinite">
+                <span slot="no-more">
+                   - 没有更多了 -
+                </span>
+            </infinite-loading>
         </div>
     </div>
 </template>
@@ -50,6 +54,7 @@
 <script>
 //    import {router} from '../router'
     import suppliers from '../mock/suppliers'
+    import InfiniteLoading from 'vue-infinite-loading'
 
     export default {
         name: 'suppliers',
@@ -67,6 +72,24 @@
         created: function () {
 //            let t = this
 //            t.suppliers = supplier
+        },
+        methods: {
+            onInfinite () {
+                setTimeout(() => {
+                    const temp = []
+                    for (let i = this.suppliers.length + 1; i <= this.suppliers.length + 5; i++) {
+                        temp.push(i)
+                    }
+                    this.suppliers = this.suppliers.concat(temp)
+                    this.$broadcast('$InfiniteLoading:loaded')
+                    if (this.suppliers.length / 5 === 4) {
+                        this.$broadcast('$InfiniteLoading:complete');
+                    }
+                }, 1000)
+            }
+        },
+        components: {
+            InfiniteLoading
         }
     }
 </script>
