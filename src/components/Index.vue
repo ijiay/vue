@@ -11,7 +11,7 @@
             </div>
         </div>
 
-        <div class="promotion" @click="goToSuppliersPage(supplier)">
+        <div class="promotion" @click="goToSuppliersPage('供应商')">
             <img src="../assets/index/hot-banner.jpg" />
         </div>
 
@@ -56,8 +56,8 @@
             goToListPage: function (menu) {
                 router.push({name: 'list', params: {id: menu ? menu.id : '1'}})
             },
-            goToSuppliersPage: function (supplier) {
-                router.push({name: 'suppliers', params: {id: supplier ? supplier.id : '1'}})
+            goToSuppliersPage: function (value) {
+                router.push({name: 'suppliers', query: {value: value}})
             }
         }
     }

@@ -42,7 +42,7 @@
                     </div>
                 </div>
             </div>
-            <infinite-loading :on-infinite="onInfinite">
+            <infinite-loading :on-infinite="onInfinite" ref="infiniteLoading">
                 <span slot="no-more">
                    - 没有更多了 -
                 </span>
@@ -51,7 +51,7 @@
     </div>
 </template>
 
-<script>
+<script type="text/babel">
 //    import {router} from '../router'
     import suppliers from '../mock/suppliers'
     import InfiniteLoading from 'vue-infinite-loading'
@@ -64,26 +64,34 @@
                     {text: '综合排序'},
                     {text: '距离最近'},
                     {text: '销量最高'},
+                    {text: '销量最高'},
+                    {text: '销量最高'},
+                    {text: '销量最高'},
                     {text: '消费者保障'}
                 ],
-                suppliers: suppliers
+                suppliers: []
             }
         },
         created: function () {
-//            let t = this
-//            t.suppliers = supplier
+            let t = this
+            t.suppliers = suppliers.slice(0, 5)
+            console.log(t.suppliers.length)
         },
         methods: {
             onInfinite () {
                 setTimeout(() => {
-                    const temp = []
-                    for (let i = this.suppliers.length + 1; i <= this.suppliers.length + 5; i++) {
-                        temp.push(i)
+                    let temp = []
+                    for (let i = this.suppliers.length; i < this.suppliers.length + 5; i++) {
+                        if (suppliers[i]) {
+                            temp.push(suppliers[i])
+                        }
                     }
+                    console.log(temp)
                     this.suppliers = this.suppliers.concat(temp)
-                    this.$broadcast('$InfiniteLoading:loaded')
-                    if (this.suppliers.length / 5 === 4) {
-                        this.$broadcast('$InfiniteLoading:complete');
+                    this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
+
+                    if (temp.length < 5 || this.suppliers.length === suppliers.length) {
+                        this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
                     }
                 }, 1000)
             }

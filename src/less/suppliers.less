@@ -6,9 +6,15 @@
     top: 0;
     left: 0;
     width: 100%;
+    overflow-x: auto;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 
     ul{
         .fix;
+        width: 1000px;
         position: relative;
         margin: 0 auto;
         height: @tabbtn-height + 1px;
@@ -26,15 +32,14 @@
             color: @font-color-two;
             font-size: @font-size-32;
             text-align: center;
-            .border-right(0px);
+
+            &:not(:last-child) {
+                .border-right(0px);
+            }
 
             &.current {
                 color: @font-color-one;
             }
-        }
-
-        li:last-child{
-            .border-right(0px, #fff);
         }
 
     }
