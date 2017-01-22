@@ -2,7 +2,9 @@
     <div>
         <div class="tabbtn">
             <ul>
-                <li v-for="tabbtn in tabBtns">{{tabbtn.text}}</li>
+                <li v-for="tab in tabBtns"
+                    @click="changeType(tab.id)"
+                    :class="{'current': tab.id == type}">{{tab.text}}</li>
             </ul>
         </div>
         <div class="content-body">
@@ -23,12 +25,12 @@
                     <ul>
                         <li class="mark"
                             v-for="mark in item.marks"
-                            v-bind:style="{ borderColor: mark.borderColor, color: mark.color}">{{mark.text}}</li>
+                            :style="{ borderColor: mark.borderColor, color: mark.color}">{{mark.text}}</li>
                     </ul>
                     <div class="suppliers-info-tags">
                         <div class="suppliers-info-tags-tag" v-for="tag in item.tags">
                             <span class="tag"
-                                  v-bind:style="{ backgroundColor: tag.bgColor, color: tag.color}">{{tag.tag}}</span>
+                                  :style="{ backgroundColor: tag.bgColor, color: tag.color}">{{tag.tag}}</span>
                             <span class="text">
                                 {{tag.text}}
                             </span>
@@ -61,21 +63,19 @@
         data () {
             return {
                 tabBtns: [
-                    {text: '综合排序'},
-                    {text: '距离最近'},
-                    {text: '销量最高'},
-                    {text: '销量最高'},
-                    {text: '销量最高'},
-                    {text: '销量最高'},
-                    {text: '消费者保障'}
+                    {text: '综合排序', id: '1'},
+                    {text: '距离最近', id: '2'},
+                    {text: '销量最高', id: '3'},
+                    {text: '消费者保障', id: '4'}
                 ],
-                suppliers: []
+                suppliers: [],
+                type: ''
             }
         },
         created: function () {
             let t = this
             t.suppliers = suppliers.slice(0, 5)
-            console.log(t.suppliers.length)
+            t.type = this.$route.query.type || '1'
         },
         methods: {
             onInfinite () {
@@ -86,7 +86,6 @@
                             temp.push(suppliers[i])
                         }
                     }
-                    console.log(temp)
                     this.suppliers = this.suppliers.concat(temp)
                     this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
 
@@ -94,6 +93,10 @@
                         this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
                     }
                 }, 1000)
+            },
+            changeType (id) {
+                this.type = id
+                window.scrollTo(0, 0)
             }
         },
         components: {

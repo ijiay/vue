@@ -33,7 +33,7 @@ export default [
     },
     {
         "text": "好运来批发商贸有限公司3",
-        "distance": "1200",
+        "distance": "1500",
         "digit": "150",
         "include": "300",
         "collect": "false",
@@ -57,7 +57,7 @@ export default [
     },
     {
         "text": "好运来批发商贸有限公司5",
-        "distance": "1400",
+        "distance": "600",
         "digit": "1500",
         "include": "300",
         "collect": "false",
@@ -65,7 +65,7 @@ export default [
     },
     {
         "text": "好运来批发商贸有限公司6",
-        "distance": "1600",
+        "distance": "1000",
         "digit": "150",
         "include": "300",
         "collect": "false",
@@ -81,16 +81,16 @@ export default [
     },
     {
         "text": "好运来批发商贸有限公司7",
-        "distance": "1800",
-        "digit": "1500",
+        "distance": "800",
+        "digit": "400",
         "include": "300",
         "collect": "false",
         "id": "0008"
     },
     {
         "text": "好运来批发商贸有限公司8",
-        "distance": "2200",
-        "digit": "1500",
+        "distance": "2000",
+        "digit": "900",
         "include": "300",
         "collect": "true",
         "id": "0009",
@@ -105,7 +105,7 @@ export default [
     },
     {
         "text": "好运来批发商贸有限公司9",
-        "distance": "2300",
+        "distance": "1600",
         "digit": "150",
         "include": "400",
         "collect": "false",
@@ -113,7 +113,7 @@ export default [
     },
     {
         "text": "好运来批发商贸有限公司10",
-        "distance": "2400",
+        "distance": "1400",
         "digit": "1500",
         "include": "300",
         "collect": "false",
@@ -121,9 +121,9 @@ export default [
     },
     {
         "text": "好运来批发商贸有限公司11",
-        "distance": "2500",
-        "digit": "1500",
-        "include": "300",
+        "distance": "2300",
+        "digit": "400",
+        "include": "200",
         "collect": "true",
         "id": "0012"
     },
@@ -161,7 +161,7 @@ export default [
     },
     {
         "text": "好运来批发商贸有限公司16",
-        "distance": "3000",
+        "distance": "4000",
         "digit": "1500",
         "include": "300",
         "collect": "false",
@@ -181,7 +181,7 @@ export default [
     },
     {
         "text": "好运来批发商贸有限公司18",
-        "distance": "3400",
+        "distance": "3000",
         "digit": "1500",
         "include": "300",
         "collect": "false",
@@ -189,7 +189,7 @@ export default [
     },
     {
         "text": "好运来批发商贸有限公司19",
-        "distance": "3500",
+        "distance": "3100",
         "digit": "1500",
         "include": "300",
         "collect": "true",
@@ -197,7 +197,7 @@ export default [
     },
     {
         "text": "好运来批发商贸有限公司20",
-        "distance": "3700",
+        "distance": "3200",
         "digit": "1500",
         "include": "300",
         "collect": "false",

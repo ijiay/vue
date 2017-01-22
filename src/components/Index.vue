@@ -28,7 +28,6 @@
                     <div class="commodity-info-shop"></div>
                 </div>
             </div>
-
         </div>
     </div>
 </template>

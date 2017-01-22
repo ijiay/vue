@@ -6,35 +6,34 @@
     top: 0;
     left: 0;
     width: 100%;
-    overflow-x: auto;
-
-    &::-webkit-scrollbar {
-        display: none;
-    }
+    z-index: 10;
 
     ul{
         .fix;
-        width: 1000px;
         position: relative;
         margin: 0 auto;
         height: @tabbtn-height + 1px;
         background-color: @bg-color-white;
-        .border-bottom(-1px);
+        .border-bottom(0px);
 
         li{
             box-sizing: border-box;
             position: relative;
             float: left;
+            width: 24%;
             margin: 13px 0;
-            padding: 0 6px;
             height: 23px;
+            text-align: center;
             line-height: 23px;
             color: @font-color-two;
             font-size: @font-size-32;
-            text-align: center;
 
             &:not(:last-child) {
                 .border-right(0px);
+            }
+
+            &:last-child {
+                width: 28%;
             }
 
             &.current {
@@ -52,9 +51,10 @@
     background-color: @bg-color;
 
     .suppliers{
+        position: relative;
         .fix;
-        margin-bottom: 5px;
-        padding: 15px 13px 15px 15px;
+        margin: 0 0 5px;
+        padding: 15px 12px;
         background-color: @bg-color-white;
     }
 }
@@ -70,16 +70,16 @@
 }
 .suppliers-info{
     float: left;
-    width: calc(~"100% - @{suppliers-side-width}*2 - 10px");
+    width: calc(~"100% - @{suppliers-side-width} - 60px");
     color: @font-color-one;
 
     .suppliers-info-title{
-        font-size: @font-size-32;
+        font-size: @font-size-30;
     }
 
     .suppliers-info-figure{
-        font-size: @font-size-26;
-        margin: 10px 0;
+        font-size: @font-size-24;
+        margin: 6px 0;
         span{
             margin-right: 10px;
             span{
@@ -107,7 +107,7 @@
     font-size: @font-size-22;
 
     .suppliers-info-tags-tag{
-        margin-top: 10px;
+        margin-top: 5px;
 
         .tag{
             display: inline-block;
@@ -122,8 +122,9 @@
 }
 
 .suppliers-operation{
-    float: right;
-    width: 70px;
+    position: absolute;
+    top: 15px;
+    right: 12px;
     color: @font-color-two;
     font-size: @font-size-22;
     text-align: right;
