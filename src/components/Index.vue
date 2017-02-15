@@ -16,7 +16,7 @@
         </div>
 
         <div class="grid hot-commodity">
-            <h4>热门商品<img src="../assets/index/hot.png" /></h4>
+            <h4>热门商品<img src="../assets/index/hot.png" @click="goToShopcarPage('购物车')" /></h4>
             <div class="col-6" v-for="goodsList in goodsLists">
                 <div class="commodity-img">
                     <img src="../assets/index/a1.jpg" />
@@ -57,6 +57,9 @@
             },
             goToSuppliersPage: function (value) {
                 router.push({name: 'suppliers', query: {value: value}})
+            },
+            goToShopcarPage: function (value) {
+                router.push({name: 'shopcar', query: {value: value}})
             }
         }
     }

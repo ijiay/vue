@@ -1,6 +1,9 @@
 <template>
     <div>
         <div class="tabbtn">
+            <header>
+                <div class="title">供应商</div>
+            </header>
             <ul>
                 <li v-for="tab in tabBtns"
                     @click="changeType(tab.id)"

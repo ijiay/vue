@@ -8,6 +8,20 @@
     width: 100%;
     z-index: 10;
 
+    header{
+        height: @tabbtn-height;
+        line-height: @tabbtn-height;
+        background-color: @bg-color-one;
+
+        .title{
+            width: 30%;
+            margin: 0 auto;
+            color: @font-color-one;
+            font-size: @font-size-38;
+            text-align: center;
+        }
+    }
+
     ul{
         .fix;
         position: relative;
@@ -23,10 +37,10 @@
             width: 24%;
             margin: 13px 0;
             height: 23px;
-            text-align: center;
             line-height: 23px;
             color: @font-color-two;
             font-size: @font-size-32;
+            text-align: center;
 
             &:not(:last-child) {
                 .border-right(0px);
@@ -45,9 +59,9 @@
 }
 
 .content-body{
-    padding-top: @tabbtn-height + 1px;
+    padding-top: @tabbtn-height * 2 + 11px;
     padding-bottom: 5px;
-    min-height: calc(~"100% - @{tabbtn-height} - 6px");
+    min-height: calc(~"100vh - @{tabbtn-height} - 6px");
     background-color: @bg-color;
 
     .suppliers{

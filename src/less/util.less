@@ -69,10 +69,128 @@
     }
 }
 
+//border-left,左边框
+.border-left (@left: -1px, @bd-color: #ccc, @offset: 0){
+    &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: @left;
+        width: 1px;
+        height: 100%;
+        background-color: @bd-color;
+
+        .transform(scaleX(0.5))
+    }
+}
+
+.bd-all(@bd-color: #ccc;@bd-radius: 10px){
+    position: relative;
+
+    &:after{
+        content: "  ";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 200%;
+        height: 200%;
+        border: 1px solid @bd-color;
+        -webkit-transform-origin: 0 0;
+        transform-origin: 0 0;
+        -webkit-transform: scale(.5, .5);
+        transform: scale(.5, .5);
+        border-radius: @bd-radius;
+    }
+}
+
 .transition (@t: all 0.2s) {
     -webkit-transition: @t;
     -moz-transition: @t;
     -ms-transition: @t;
     -o-transition: @t;
     transition: @t;
+}
+
+.check(@color: #fff) {
+    &+label.check-label {
+        position: relative;
+        width: 20px;
+        left: -32px;
+    }
+    position: relative;
+
+    &:before,
+    &:after,
+    &:checked:after,
+    &:checked:before,
+    &+label.check-label:before,
+    &+label.check-label:after,
+    &+label.check-label:checked:after,
+    &+label.check-label:checked:before{
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 20px;
+        height: 20px;
+        opacity: 1;
+    }
+
+    &:before,
+    &:checked:before,
+    &+label.check-label:before,
+    &+label.check-label:checked:before{
+        left: -2px;
+        top: -2px;
+        width: 24px;
+        height: 24px;
+        background-color: @color;
+    }
+
+    &:after,
+    &+label.check-label:after{
+        background: url("../assets/shopcar/unchecked.png");
+        background-size: 100% 100%;
+    }
+
+    &:checked:after,
+    &:checked+label.check-label:after{
+        background: url("../assets/shopcar/checked.png");
+        background-size: 100% 100%;
+    }
+}
+
+.right-arrow {
+    display: inline-block;
+    width: 7px;
+    height: 14px;
+    background-image: url('../assets/shopcar/right_arrow.png');
+    background-size: 100% 100%;
+}
+
+
+.flex (@unit: 1) {
+    -webkit-box-flex: @unit;
+    -webkit-flex: @unit;
+    -ms-flex: @unit;
+    flex: @unit;
+
+    display: block;
+}
+
+.flex-display (@align: stretch; @justify: flex-start) {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+
+    -webkit-box-align: @align;
+    -webkit-align-items: @align;
+    -ms-flex-align: @align;
+    align-items: @align;
+
+    -webkit-box-pack: @justify;
+    -webkit-justify-content: @justify;
+    -ms-justify-content: @justify;
+    justify-content: @justify;
 }
