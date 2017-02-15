@@ -87,7 +87,7 @@
 .bd-all(@bd-color: #ccc;@bd-radius: 10px){
     position: relative;
 
-    &:after{
+    &:before{
         content: "  ";
         position: absolute;
         left: 0;
@@ -112,17 +112,16 @@
 }
 
 .check(@color: #fff) {
+    position: relative;
+    left: -1000px;
+    opacity: 0;
     &+label.check-label {
         position: relative;
         width: 20px;
         left: -32px;
+        top: -2px;
     }
-    position: relative;
 
-    &:before,
-    &:after,
-    &:checked:after,
-    &:checked:before,
     &+label.check-label:before,
     &+label.check-label:after,
     &+label.check-label:checked:after,
@@ -136,8 +135,6 @@
         opacity: 1;
     }
 
-    &:before,
-    &:checked:before,
     &+label.check-label:before,
     &+label.check-label:checked:before{
         left: -2px;
@@ -147,13 +144,11 @@
         background-color: @color;
     }
 
-    &:after,
     &+label.check-label:after{
         background: url("../assets/shopcar/unchecked.png");
         background-size: 100% 100%;
     }
 
-    &:checked:after,
     &:checked+label.check-label:after{
         background: url("../assets/shopcar/checked.png");
         background-size: 100% 100%;

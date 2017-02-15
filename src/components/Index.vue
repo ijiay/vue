@@ -59,7 +59,7 @@
                 router.push({name: 'suppliers', query: {value: value}})
             },
             goToShopcarPage: function (value) {
-                router.push({name: 'shopcar', query: {value: value}})
+                router.push({name: 'shopcar'})
             }
         }
     }
