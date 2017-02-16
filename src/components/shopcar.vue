@@ -24,7 +24,7 @@
                                class="sub-check">
                         <label class="check-label"
                                @click="checkSup(sup)"></label>
-                        <img src="../assets/shopcar/shop.png" class="sub-icon">
+                        <img src="../assets/shopcar/trademark.png" class="sub-icon">
                         <span>{{sup.name}}</span>
                         <span class="right-arrow"></span>
                     </div>
@@ -105,11 +105,27 @@
 </template>
 
 <script type="text/babel">
+    import Vue from 'vue'
+    import Vuex from 'vuex'
     import shopCarList from '../mock/shop-car'
     import sideSwipe from './sideSwiper.vue'
 
+    Vue.use(Vuex)
+
+    const store = new Vuex.Store({
+        state: {
+            count: 0
+        },
+        mutations: {
+            increment (state) {
+                state.count++
+            }
+        }
+    })
+
     export default {
         name: 'shopCar',
+        store,
         components: {
             sideSwipe
         },

@@ -1,0 +1,118 @@
+@import "util";
+@import "variable";
+@pageMargin: 13px;
+
+#order {
+    background-color: @bg-color;
+}
+.order-tabbtn {
+
+    width: 100%;
+    height: 95px;
+
+    header.order-header {
+        position: relative;
+        height: @tabbtn-height;
+        line-height: @tabbtn-height;
+        color: @font-color-one;
+        background-color: @bg-color-one;
+        text-align: center;
+
+        .left-arrow {
+            .vertical-middle();
+            left: @pageMargin;
+        }
+
+        .title {
+            display: inline-block;
+            font-size: @font-size-38;
+        }
+
+        ul.toggle-btn{
+            .flex-display();
+            .fix;
+            position: relative;
+            margin: 0 auto;
+            height: 45px;
+            background-color: @bg-color-white;
+
+            li{
+                .flex();
+                flex-grow: 1;
+                box-sizing: border-box;
+                position: relative;
+                top: -6px;
+                color: @font-color-one;
+                font-size: @font-size-32;
+                text-align: center;
+
+                &.current:after {
+                    content: '';
+                    position: absolute;
+                    left: 20%;
+                    bottom: 4px;
+                    height: 1px;
+                    width: 60%;
+                    background-color: #12c8b9;
+                    .transform(scaleY(0.5));
+                }
+
+                &:after {
+                    content: '';
+                    position: absolute;
+                    left: 20%;
+                    bottom: 10px;
+                    height: 1px;
+                    width: 60%;
+                    background-color: #fff;
+                    .transform(scaleY(0.5));
+                }
+
+            }
+
+        }
+
+    }
+
+ }
+
+.order-body {
+    height: calc(~"100vh - @{tabbtn-height} - 45px");
+    padding: 10px 0 0;
+    overflow: auto;
+}
+
+@orderStatusWidth: 105px;
+.order-list-item-info {
+    font-size: @font-size-30;
+
+    .title {
+        position: relative;
+        padding: 0 @pageMargin;
+        height: 45px;
+        line-height: 45px;
+        background-color: @bg-color-one;
+
+        img.order-icon {
+            height: 18px;
+            margin: 0 10px 0 0;
+            .vertical-middle;
+        }
+
+        span.title-text {
+            max-width: calc(~"100vw - @{orderStatusWidth} - 45px");
+            background: url("../assets/order/right_arrow.png") center right no-repeat;
+            background-size: 7px 14px;
+            overflow : hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+
+        span.orderstatus {
+            width: @orderStatusWidth;
+            color: @font-color-three;
+        }
+    }
+}
