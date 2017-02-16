@@ -29,37 +29,39 @@
                         <span class="right-arrow"></span>
                     </div>
                     <div class="sup-item-list">
-                        <div class="goods-item" v-for="goods in sup.goodsList">
-                            <div class="goods-item-check" @click="checkGoods(sup, goods)">
-                                <input type="checkbox"
-                                       v-model="goods.checked"
-                                       class="check">
-                                <label class="check-label"></label>
-                            </div>
-                            <div class="img">
-                                <img src="../assets/shopcar/a1.jpg" />
-                            </div>
-                            <div class="info">
-                                <div class="title">
-                                    <a>{{goods.name}}</a>
+                        <side-swipe v-for="goods in sup.goodsList">
+                            <div class="goods-item">
+                                <div class="goods-item-check" @click="checkGoods(sup, goods)">
+                                    <input type="checkbox"
+                                           v-model="goods.checked"
+                                           class="check">
+                                    <label class="check-label"></label>
                                 </div>
-                                <div class="detail">{{goods.size}}</div>
-                                <div class="other">
-                                    <div class="price">￥{{goods.price}}</div>
-                                    <div class="num-btn">
-                                        <input type="number"
-                                               v-model="goods.currentNum"
-                                               @blur="checkCurrentNumOnBlur(goods)"
-                                               class="number"/>
-                                        <div class="reduce"
-                                             @click="reduceGoods(goods)"
-                                             :class="{'disabled': goods.currentNum <= goods.minBuyNum}"></div>
-                                        <div class="add"
-                                             @click="addGoods(goods)"></div>
+                                <div class="img">
+                                    <img src="../assets/shopcar/a1.jpg" />
+                                </div>
+                                <div class="info">
+                                    <div class="title">
+                                        <a>{{goods.name}}</a>
+                                    </div>
+                                    <div class="detail">{{goods.size}}</div>
+                                    <div class="other">
+                                        <div class="price">￥{{goods.price}}</div>
+                                        <div class="num-btn">
+                                            <input type="number"
+                                                   v-model="goods.currentNum"
+                                                   @blur="checkCurrentNumOnBlur(goods)"
+                                                   class="number"/>
+                                            <div class="reduce"
+                                                 @click="reduceGoods(goods)"
+                                                 :class="{'disabled': goods.currentNum <= goods.minBuyNum}"></div>
+                                            <div class="add"
+                                                 @click="addGoods(goods)"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </side-swipe>
                     </div>
                     <div class="sup-item-footer">
                         <div class="starting-price">
@@ -98,16 +100,19 @@
                     <div class="settlement">删除</div>
                 </div>
             </div>
-
         </div>
     </div>
 </template>
 
 <script type="text/babel">
     import shopCarList from '../mock/shop-car'
+    import sideSwipe from './sideSwiper.vue'
 
     export default {
         name: 'shopCar',
+        components: {
+            sideSwipe
+        },
         data () {
             return {
                 // none指的是购物车为空，edit为编辑状态，shopping为有商品时状态
