@@ -25,7 +25,7 @@
                         <label class="check-label"
                                @click="checkSup(sup)"></label>
                         <img src="../assets/shopcar/shop.png" class="sub-icon">
-                        <span>{{sup.checked}}</span>
+                        <span>{{sup.name}}</span>
                         <span class="right-arrow"></span>
                     </div>
                     <div class="sup-item-list">
@@ -49,7 +49,7 @@
                                     <div class="num-btn">
                                         <input type="number"
                                                v-model="goods.currentNum"
-                                               @blur="checkCurrentNum(goods)"
+                                               @blur="checkCurrentNumOnBlur(goods)"
                                                class="number"/>
                                         <div class="reduce"
                                              @click="reduceGoods(goods)"
@@ -68,7 +68,7 @@
                         </div>
                         <div class="sup-item-total">
                             <span>合计：</span>
-                            <span class="sup-item-total-price">￥16.50</span>
+                            <span class="sup-item-total-price">￥{{sup.totalPrice}}</span>
                         </div>
                     </div>
                 </div>
@@ -83,9 +83,9 @@
                         <label class="check-label"
                                @click="checkAllOrNot()"></label>
                         <span>全选</span>
-                        <div class="shopcar-list-total">合计:<span>￥16.50</span></div>
+                        <div class="shopcar-list-total">合计:<span>￥{{checkedGoodsPrice}}</span></div>
                     </div>
-                    <div class="settlement">结算(<span>0</span>)</div>
+                    <div class="settlement">结算(<span>{{checkedGoodsAmount}}</span>)</div>
                 </div>
                 <div class="shopcar-list-shopping" v-if="shopCarState == 'edit'">
                     <div class="shopcar-list-btn edit">
@@ -110,34 +110,42 @@
         name: 'shopCar',
         data () {
             return {
-                /** none指的是购物车为空，edit为编辑状态，shopping为有商品时状态
-                 */
+                // none指的是购物车为空，edit为编辑状态，shopping为有商品时状态
                 shopCarState: 'shopping',
                 shopCarList,
-                checkedAll: false
+                // 默认全部不选中
+                checkedAll: false,
+                // 选中的商品种类数量
+                checkedGoodsAmount: 0,
+                // 选中的商品总价
+                checkedGoodsPrice: 0
             }
         },
         created () {
             let t = this
             t.shopCarList && t.shopCarList.forEach(function (sup) {
                 t.$set(sup, 'checked', false)
+                t.$set(sup, 'totalPrice', 0)
                 sup.goodsList && sup.goodsList.forEach(function (goods) {
                     t.$set(goods, 'checked', false)
                 })
             })
         },
         methods: {
+            // 减少商品
             reduceGoods (goods) {
                 if (goods.currentNum > goods.minBuyNum) {
                     goods.currentNum--
                 }
             },
+            // 增加商品
             addGoods (goods) {
                 if (goods.currentNum < goods.maxBuyNum) {
                     goods.currentNum++
                 }
             },
-            checkCurrentNum (goods) {
+            // 当blur时，检查数量是否符合规则
+            checkCurrentNumOnBlur (goods) {
                 if (!goods.currentNum || Number.isNaN(goods.currentNum) || goods.currentNum < goods.minBuyNum) {
                     goods.currentNum = goods.minBuyNum
                 } else if (goods.currentNum >= goods.maxBuyNum) {
@@ -146,21 +154,38 @@
                     goods.currentNum = parseInt(goods.currentNum)
                 }
             },
+            // 点击选择商品时规则
             checkGoods (sup, goods) {
                 let t = this
                 goods.checked = !goods.checked
-                t.isCheckAll(sup)
+                t.isCheckAllAndComputedPrice(sup)
             },
-            isCheckAll (sup) {
+            // 检测选中规则：点击全选按钮时，无需传入sup
+            isCheckAllAndComputedPrice (sup) {
                 let t = this
                 let check = function (list) {
                     return list.every(function (item) {
                         return item.checked
                     })
                 }
-                sup.checked = !!check(sup.goodsList)
-                t.checkedAll = !!check(t.shopCarList)
+
+                // 计算各个供应商下商品的价格&&计算总共的价格还有商品的数量
+                t.checkedGoodsAmount = 0
+                t.checkedGoodsPrice = 0
+                t.shopCarList.forEach(function (item) {
+                    item.totalPrice = 0
+                    item.goodsList.forEach(function (goods) {
+                        item.totalPrice += (goods.checked ? goods.currentNum * goods.price : 0)
+                        t.checkedGoodsAmount += (goods.checked ? 1 : 0)
+                        t.checkedGoodsPrice += (goods.checked ? goods.currentNum * goods.price : 0)
+                    })
+                })
+
+                // 检测是否传入供应商，如果传入，则计算该供应商的选中和整体的选中
+                sup && (sup.checked = !!check(sup.goodsList))
+                sup && (t.checkedAll = !!check(t.shopCarList))
             },
+            // 点击全选或者反选
             checkAllOrNot () {
                 let t = this
                 t.shopCarList && t.shopCarList.forEach(function (sup) {
@@ -170,20 +195,16 @@
                     })
                 })
                 t.checkedAll = !t.checkedAll
+                t.isCheckAllAndComputedPrice()
             },
+            // 点击选择供应商时
             checkSup (sup) {
                 let t = this
-                if (!sup.checked) {
-                    sup.goodsList.forEach(function (goods) {
-                        goods.checked = true
-                    })
-                } else {
-                    sup.goodsList.forEach(function (goods) {
-                        goods.checked = false
-                    })
-                }
+                sup.goodsList.forEach(function (goods) {
+                    goods.checked = !sup.checked
+                })
                 sup.checked = !sup.checked
-                t.isCheckAll(sup)
+                t.isCheckAllAndComputedPrice(sup)
             }
         }
     }
