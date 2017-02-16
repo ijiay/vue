@@ -4,6 +4,8 @@ import Vue from 'vue'
 import VueResource from 'vue-resource'
 import App from './App'
 import './less/reset.less'
+import './less/util.less'
+import './less/grid.less'
 
 Vue.use(VueResource)
 
