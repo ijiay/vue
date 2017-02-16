@@ -146,6 +146,7 @@
             },
             // 当blur时，检查数量是否符合规则
             checkCurrentNumOnBlur (goods) {
+                let t = this
                 if (!goods.currentNum || Number.isNaN(goods.currentNum) || goods.currentNum < goods.minBuyNum) {
                     goods.currentNum = goods.minBuyNum
                 } else if (goods.currentNum >= goods.maxBuyNum) {
@@ -153,6 +154,7 @@
                 } else {
                     goods.currentNum = parseInt(goods.currentNum)
                 }
+                t.isCheckAllAndComputedPrice()
             },
             // 点击选择商品时规则
             checkGoods (sup, goods) {
