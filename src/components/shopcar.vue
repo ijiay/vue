@@ -134,15 +134,19 @@
         methods: {
             // 减少商品
             reduceGoods (goods) {
+                let t = this
                 if (goods.currentNum > goods.minBuyNum) {
                     goods.currentNum--
                 }
+                t.isCheckAllAndComputedPrice()
             },
             // 增加商品
             addGoods (goods) {
+                let t = this
                 if (goods.currentNum < goods.maxBuyNum) {
                     goods.currentNum++
                 }
+                t.isCheckAllAndComputedPrice()
             },
             // 当blur时，检查数量是否符合规则
             checkCurrentNumOnBlur (goods) {
