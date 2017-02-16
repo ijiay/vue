@@ -81,7 +81,7 @@
                                id="shoppingCheck"
                                class="shopcar-list-check">
                         <label class="check-label"
-                               @click="checkAll()"></label>
+                               @click="checkAllOrNot()"></label>
                         <span>全选</span>
                         <div class="shopcar-list-total">合计:<span>￥16.50</span></div>
                     </div>
@@ -128,17 +128,13 @@
         },
         methods: {
             reduceGoods (goods) {
-                if (goods.currentNum <= goods.minBuyNum) {
-                    return false
-                } else {
+                if (goods.currentNum > goods.minBuyNum) {
                     goods.currentNum--
                 }
             },
             addGoods (goods) {
-                if (goods.currentNum >= goods.maxBuyNum) {
-                    return false
-                } else {
-                    goods.currentNum = parseInt(goods.currentNum) + 1
+                if (goods.currentNum < goods.maxBuyNum) {
+                    goods.currentNum++
                 }
             },
             checkCurrentNum (goods) {
@@ -146,6 +142,8 @@
                     goods.currentNum = goods.minBuyNum
                 } else if (goods.currentNum >= goods.maxBuyNum) {
                     goods.currentNum = goods.maxBuyNum
+                } else {
+                    goods.currentNum = parseInt(goods.currentNum)
                 }
             },
             checkGoods (sup, goods) {
@@ -160,34 +158,17 @@
                         return item.checked
                     })
                 }
-                if (check(sup.goodsList)) {
-                    sup.checked = true
-                } else {
-                    sup.checked = false
-                }
-                if (check(t.shopCarList)) {
-                    t.checkedAll = true
-                } else {
-                    t.checkedAll = false
-                }
+                sup.checked = !!check(sup.goodsList)
+                t.checkedAll = !!check(t.shopCarList)
             },
-            checkAll () {
+            checkAllOrNot () {
                 let t = this
-                if (t.checkedAll) {
-                    t.shopCarList && t.shopCarList.forEach(function (sup) {
-                        sup.checked = false
-                        sup.goodsList && sup.goodsList.forEach(function (goods) {
-                            goods.checked = false
-                        })
+                t.shopCarList && t.shopCarList.forEach(function (sup) {
+                    sup.checked = !t.checkedAll
+                    sup.goodsList && sup.goodsList.forEach(function (goods) {
+                        goods.checked = !t.checkedAll
                     })
-                } else {
-                    t.shopCarList && t.shopCarList.forEach(function (sup) {
-                        sup.checked = true
-                        sup.goodsList && sup.goodsList.forEach(function (goods) {
-                            goods.checked = true
-                        })
-                    })
-                }
+                })
                 t.checkedAll = !t.checkedAll
             },
             checkSup (sup) {
