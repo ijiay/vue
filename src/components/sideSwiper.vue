@@ -29,15 +29,19 @@
                 startX: 0,
                 endX: 0,
                 betaX: 0,
+                bateY: 0,
                 moveX: 0,
+                startY: 0,
+                endY: 0,
                 startTime: 0,
                 endTime: 0,
-                isOpen: false
+                isOpen: false,
+                isScroll: false
             }
         },
-        created () {
-            console.log(this._uid)
-        },
+//        created () {
+//            console.log(this._uid)
+//        },
         methods: {
             touchstart (e) {
                 let t = this
@@ -45,12 +49,21 @@
                 t.isOpen = t.moveX <= -110
                 t.betaX = e.touches[0].pageX
                 t.startX = e.touches[0].pageX
-                console.log(t.startX)
+                t.startY = e.touches[0].pageY
             },
             touchmove (e) {
                 let t = this
                 let moveX = e.touches[0].pageX - t.betaX
+                let moveY = e.touches[0].pageY - t.betaY
                 t.betaX = t.endX = e.touches[0].pageX
+                t.betaY = t.endY = e.touches[0].pageY
+                // 如果在Y轴上移动的距离小于X轴上移动的距离,那么这就是无效移动
+                if (Math.abs(moveY) > (Math.abs(moveX) * 0.8)) {
+                    t.isScroll = true
+                    return
+                }
+                e.stopPropagation()
+                e.preventDefault()
                 if ((t.moveX + moveX) <= 0 && (t.moveX + moveX) >= -130) {
                     t.moveX += moveX
                 }
@@ -58,8 +71,13 @@
             },
             touchend () {
                 let t = this
-                if (!t.isMoved) return
+                if (!t.isMoved) {
+                    console.log(t.isScroll)
+                    t.move((t.moveX > -(130 / 1.3)) ? 5 : -5)
+                    return
+                }
                 t.isMoved = false
+                t.isScroll = false
                 t.endTime = Date.now()
                 let reduce = t.endX - t.startX
                 let time = t.endTime - t.startTime
@@ -70,23 +88,25 @@
                 if (speed < 0 && speed > -5) {
                     speed = -5
                 }
-                let animate = function () {
-                    window.requestAnimFrame(function () {
-                        let x = t.moveX + speed
-                        if (x >= 0) {
-                            t.moveX = 0
-                            return
-                        }
-                        if (x <= -130) {
-                            t.moveX = -130
-                            return
-                        }
-                        t.moveX += speed
-                        speed > 0 ? (speed++) : (speed--)
-                        animate()
-                    }, 1000 / 60)
-                }
-                animate('reduce')
+                t.move(speed)
+            },
+            move (speed) {
+                let t = this
+                window.requestAnimFrame(function () {
+                    let x = t.moveX + speed
+                    if (x >= 0) {
+                        t.moveX = 0
+                        return
+                    }
+                    if (x <= -130) {
+                        t.moveX = -130
+                        return
+                    }
+                    console.log(speed)
+                    t.moveX += speed
+                    speed = speed > 0 ? (speed + 0.8) : (speed - 0.8)
+                    t.move(speed)
+                }, 1000 / 60)
             }
         }
     }
