@@ -1,12 +1,14 @@
 <template>
-    <div id="shopcar">
+    <div id="shopcar" @touchend="closeSideSwipes()">
         <div class="shopcar-tabbtn">
             <header class="shopcar-header">
                 <div class="title">购物车</div>
                 <div class="title-icon title-right">
                     <span v-if="shopCarState == 'none'">编辑</span>
-                    <span v-if="shopCarState == 'shopping'">编辑</span>
-                    <span v-if="shopCarState == 'edit'">完成</span>
+                    <span v-if="shopCarState == 'shopping'"
+                          @click="shopCarState = 'edit'">编辑</span>
+                    <span v-if="shopCarState == 'edit'"
+                          @click="shopCarState = 'shopping'">完成</span>
                 </div>
             </header>
         </div>
@@ -29,7 +31,11 @@
                         <span class="right-arrow"></span>
                     </div>
                     <div class="sup-item-list">
-                        <side-swipe v-for="goods in sup.goodsList">
+                        <side-swipe v-for="goods in sup.goodsList"
+                                    @setstatus="setSideSwipeStatus"
+                                    :status="sideSwipeStatusArr"
+                                    :touchnum="touchNum"
+                                    :btns="goods.btns">
                             <div class="goods-item">
                                 <div class="goods-item-check" @click="checkGoods(sup, goods)">
                                     <input type="checkbox"
@@ -80,7 +86,6 @@
                     <div class="shopcar-list-btn">
                         <input type="checkbox"
                                v-model="checkedAll"
-                               id="shoppingCheck"
                                class="shopcar-list-check">
                         <label class="check-label"
                                @click="checkAllOrNot()"></label>
@@ -94,6 +99,8 @@
                         <input type="checkbox"
                                v-model="checkedAll"
                                class="shopcar-list-check">
+                        <label class="check-label"
+                               @click="checkAllOrNot()"></label>
                         <span>全选</span>
                     </div>
                     <div class="shopcar-list-collect">加入收藏</div>
@@ -105,27 +112,12 @@
 </template>
 
 <script type="text/babel">
-    import Vue from 'vue'
-    import Vuex from 'vuex'
     import shopCarList from '../mock/shop-car'
     import sideSwipe from './sideSwiper.vue'
-
-    Vue.use(Vuex)
-
-    const store = new Vuex.Store({
-        state: {
-            count: 0
-        },
-        mutations: {
-            increment (state) {
-                state.count++
-            }
-        }
-    })
+    import {getIndexOfArrayFromProp} from '../utils'
 
     export default {
         name: 'shopCar',
-        store,
         components: {
             sideSwipe
         },
@@ -139,7 +131,11 @@
                 // 选中的商品种类数量
                 checkedGoodsAmount: 0,
                 // 选中的商品总价
-                checkedGoodsPrice: 0
+                checkedGoodsPrice: 0,
+                // 子sideSwipe状态
+                sideSwipeStatusArr: [],
+                // 监听此属性，如有变动关闭子sideSwipe
+                touchNum: 0
             }
         },
         created () {
@@ -149,10 +145,37 @@
                 t.$set(sup, 'totalPrice', 0)
                 sup.goodsList && sup.goodsList.forEach(function (goods) {
                     t.$set(goods, 'checked', false)
+                    t.$set(goods, 'btns', [
+                        {
+                            name: '加入收藏',
+                            bgc: '#ccc',
+                            width: '65px',
+                            cb: function () {
+                                window.alert(goods.id)
+                            }
+                        },
+                        {
+                            name: '删除',
+                            width: '65px',
+                            bgc: '#ff2d2d',
+                            cb: function () {
+                                window.alert(goods.id)
+                            }
+                        }
+                    ])
                 })
             })
         },
         methods: {
+            closeSideSwipes () {
+                let t = this
+                let status = t.sideSwipeStatusArr.some(function (item) {
+                    return item.isOpened
+                })
+                if (status) {
+                    t.touchNum++
+                }
+            },
             // 减少商品
             reduceGoods (goods) {
                 let t = this
@@ -232,6 +255,15 @@
                 })
                 sup.checked = !sup.checked
                 t.isCheckAllAndComputedPrice(sup)
+            },
+            setSideSwipeStatus (status) {
+                let t = this
+                let index = getIndexOfArrayFromProp(t.sideSwipeStatusArr, 'id', status.id)
+                if (index === -1) {
+                    t.sideSwipeStatusArr.push(status)
+                } else {
+                    t.sideSwipeStatusArr[index].isOpened = status.isOpened
+                }
             }
         }
     }
