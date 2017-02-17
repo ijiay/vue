@@ -14,19 +14,28 @@
         </div>
         <div class="order-body">
             <div class="order-list">
-                <div class="order-list-item">
-                    <div class="order-list-item-info" v-for="order in orderList">
-                        <div class="title">
-                            <img src="../assets/order/trademark.png" class="order-icon">
-                            <span class="title-text">{{order.name}}</span>
-                            <span class="orderstatus">{{order.orderStatus}}</span>
-                        </div>
-                        <div class="swiper">
-
-                        </div>
-                        <div class="total-info"></div>
+                <div class="order-list-item" v-for="order in orderList">
+                    <div class="title">
+                        <img src="../assets/order/trademark.png" class="order-icon">
+                        <span class="title-text">{{order.name}}<img src="../assets/order/right_arrow.png" /></span>
+                        <span class="orderstatus">{{order.orderStatus}}</span>
                     </div>
-                    <div class="main-btns"></div>
+                    <div class="order-list-item-info">
+                        <div class="swiper">
+                            <img src="../assets/order/b1.jpg" />
+                            <img src="../assets/order/b1.jpg" />
+                            <img src="../assets/order/b1.jpg" />
+                        </div>
+                        <div class="total-info">
+                            共<span class="total-info-number">1</span>件商品&nbsp;
+                            实付款：<span class="total-info-price">￥50.00</span>
+                        </div>
+                        <div class="main-btns">
+                            <div class="mark"
+                                v-for="mark in order.marks"
+                                :style="{color: mark.color, backgroundColor: mark.bgColor, borderColor: mark.borderColor}">{{mark.text}}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -64,6 +73,6 @@
 </script>
 
 <style lang="less" rel="stylesheet/less" scoped>
-    @import "../less/order.less";
+    @import "../less/Order.less";
 </style>
 

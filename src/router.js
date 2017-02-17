@@ -6,6 +6,7 @@ import List from './components/List.vue'
 import Suppliers from './components/suppliers.vue'
 import Shopcar from './components/shopcar.vue'
 import Order from './components/Order.vue'
+import Orderdetail from './components/Order-detail.vue'
 
 Vue.use(VueRouter)
 
@@ -15,7 +16,8 @@ const router = new VueRouter({
         {path: '/list/:id', component: List, name: 'list'},
         {path: '/search/suppliers/list', component: Suppliers, name: 'suppliers'},
         {path: '/shopcar', component: Shopcar, name: 'shopcar'},
-        {path: '/order', component: Order, name: 'order'}
+        {path: '/order', component: Order, name: 'order'},
+        {path: '/order-detail', component: Orderdetail, name: 'orderdetail'}
     ]
 })
 
