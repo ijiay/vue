@@ -36,7 +36,7 @@
         name: 'order-detail',
         router,
         methods: {
-            goToOrderPage: function (order) {
+            goToOrderPage: function (value) {
                 router.push({name: 'order'})
             }
         }
