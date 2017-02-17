@@ -72,23 +72,26 @@
             touchend () {
                 let t = this
                 if (!t.isMoved) {
-                    console.log(t.isScroll)
                     t.move((t.moveX > -(130 / 1.3)) ? 5 : -5)
                     return
                 }
-                t.isMoved = false
-                t.isScroll = false
+
+                // 计算每帧所花时间，从而计算速度
                 t.endTime = Date.now()
                 let reduce = t.endX - t.startX
                 let time = t.endTime - t.startTime
                 let speed = parseInt(reduce / (time / (1000 / 60)))
-                if (speed > 0 && speed < 5) {
-                    speed = 5
+                if (speed > 0 && speed < 7) {
+                    speed = 7
                 }
-                if (speed < 0 && speed > -5) {
-                    speed = -5
+                if (speed < 0 && speed > -7) {
+                    speed = -7
                 }
                 t.move(speed)
+
+                // 重置
+                t.isMoved = false
+                t.isScroll = false
             },
             move (speed) {
                 let t = this
@@ -102,7 +105,6 @@
                         t.moveX = -130
                         return
                     }
-                    console.log(speed)
                     t.moveX += speed
                     speed = speed > 0 ? (speed + 0.8) : (speed - 0.8)
                     t.move(speed)
