@@ -33,7 +33,7 @@
     </div>
 </template>
 
-<script>
+<script type="text/babel">
     import {router} from '../router'
     import menu from '../mock/menu'
     import childMenu from '../mock/child-menu'

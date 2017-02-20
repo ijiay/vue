@@ -79,7 +79,6 @@
         },
         watch: {
             touchnum: function (val, oldVal) {
-                console.log(val, oldVal)
                 let t = this
                 t.move(t.initSpeed)
             }
@@ -115,7 +114,7 @@
                 e.stopPropagation()
                 e.preventDefault()
                 if ((t.moveX + moveX) <= 0 && (t.moveX + moveX) >= -t.width) {
-                    t.setStatus = t.moveX += moveX
+                    t.moveX += moveX
                 }
                 t.isMoved = true
             },
