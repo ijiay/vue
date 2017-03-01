@@ -5,13 +5,13 @@
             <ul class="list-menu-box">
                 <li v-for="(parentMenu, index) in menus"
                     :class="{'current': parentMenu.id == $route.params.id,'isToggle': isToggle}">
-                    <div @click="parentMenuToggle(parentMenu)">{{parentMenu.text}}<img src="../assets/list/arrow.png" v-if="parentMenu.id !== $route.params.id"/><img src="../assets/list/arrow-current.png" v-if="parentMenu.id === $route.params.id"/></div>
+                    <div @click="parentMenuToggle(parentMenu)">{{parentMenu.name}}<img src="../assets/list/arrow.png" v-if="parentMenu.id != $route.params.id"/><img src="../assets/list/arrow-current.png" v-if="parentMenu.id == $route.params.id"/></div>
                     <ul>
-                        <li v-for="(childMenu, childIndex) in childMenus"
+                        <li v-for="childMenu in parentMenu.subcategory_list"
                             @click="changeChildMenu(childMenu)"
                             :class="{'current': childMenu.id == currentChildMenuId}">
                             <div>
-                                {{childMenu.text}}
+                                {{childMenu.name}}
                             </div>
                         </li>
                     </ul>
@@ -38,27 +38,40 @@
     import menu from '../mock/menu'
     import childMenu from '../mock/child-menu'
     import goodsList from '../mock/goods-list'
+    import dataService from '../getData/index'
 
     export default {
         name: 'list',
         data () {
             return {
-                menus: [],
                 childMenus: [],
                 currentChildMenuId: '',
                 goodsLists: [],
                 isToggle: false
             }
         },
+        computed: {
+            menus () {
+                return this.$store.state.menus
+            }
+        },
         created: function () {
             let t = this
             t.menus = menu
-            t.getChildMenu(t.$route.params.id)
+            if (this.$store.state.menus.length === 0) {
+                dataService.getMenus().then(function ({data}) {
+                    t.$store.commit('setMenus', data.category_list)
+                    t.menus = data.category_list
+                    t.getChildMenu(t.$route.params.id)
+                })
+            } else {
+                t.getChildMenu(t.$route.params.id)
+            }
         },
         methods: {
             parentMenuToggle: function (parentMenu) {
                 let t = this
-                if (parentMenu.id === t.$route.params.id) {
+                if (parentMenu.id.toString() === t.$route.params.id.toString()) {
                     t.isToggle = !t.isToggle
                 } else {
                     router.push({name: 'list', params: {id: parentMenu.id}})
@@ -76,7 +89,7 @@
                 t.childMenus = childMenu.filter(function (c) {
                     return c.parentId === id
                 })
-                t.currentChildMenuId = t.childMenus[0].id
+                t.currentChildMenuId = t.childMenus.length > 0 ? t.childMenus[0].id : 0
                 t.getGoodsList(t.currentChildMenuId)
             },
             getGoodsList: function (id) {

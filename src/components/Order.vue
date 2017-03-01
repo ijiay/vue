@@ -1,5 +1,5 @@
 <template>
-    <div id="order">
+    <div class="order">
         <div class="order-tabbtn">
             <header class="order-header">
                 <div class="left-arrow"></div>
@@ -17,14 +17,19 @@
                 <div class="order-list-item" v-for="order in orderList">
                     <div class="title">
                         <img src="../assets/order/trademark.png" class="order-icon">
-                        <span class="title-text">{{order.name}}<img src="../assets/order/right_arrow.png" /></span>
+                        <span class="title-text">{{order.name}}<img src="../assets/order/right_arrow_h.png" /></span>
                         <span class="orderstatus">{{order.orderStatus}}</span>
                     </div>
                     <div class="order-list-item-info">
-                        <div class="swiper">
-                            <img src="../assets/order/b1.jpg" />
-                            <img src="../assets/order/b1.jpg" />
-                            <img src="../assets/order/b1.jpg" />
+                        <div class="swipe-container">
+                            <div class="swipe" :style="{'width': 6 * 80 + 'px'}">
+                                <img src="../assets/order/b1.jpg" />
+                                <img src="../assets/order/b1.jpg" />
+                                <img src="../assets/order/b1.jpg" />
+                                <img src="../assets/order/b1.jpg" />
+                                <img src="../assets/order/b1.jpg" />
+                                <img src="../assets/order/b1.jpg" />
+                            </div>
                         </div>
                         <div class="total-info">
                             共<span class="total-info-number">1</span>件商品&nbsp;
@@ -73,6 +78,6 @@
 </script>
 
 <style lang="less" rel="stylesheet/less" scoped>
-    @import "../less/Order.less";
+    @import "../less/order.less";
 </style>
 

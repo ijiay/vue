@@ -87,6 +87,7 @@
         height: 45px;
         line-height: 45px;
         background-color: @bg-color-one;
+        .border-bottom(0);
 
         img.order-icon {
             position: relative;
@@ -123,13 +124,16 @@
 .order-list-item-info {
     background-color: @bg-color-white;
 
-    .swiper {
+    .swipe-container {
+        overflow-y: hidden;
         padding: 15px 0;
 
-        img {
-            width: 70px;
-            height: 70px;
-            margin-right: 5px;
+        .swipe {
+            img {
+                width: 70px;
+                height: 70px;
+                margin-right: 5px;
+            }
         }
     }
 

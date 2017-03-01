@@ -1,19 +1,19 @@
 @import "util";
 @import "variable";
 
-.tabbtn{
+.tabbtn {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 10;
 
-    header{
+    header {
         height: @tabbtn-height;
         line-height: @tabbtn-height;
         background-color: @bg-color-one;
 
-        .title{
+        .title {
             width: 30%;
             margin: 0 auto;
             color: @font-color-one;
@@ -22,7 +22,7 @@
         }
     }
 
-    ul{
+    ul {
         .fix;
         position: relative;
         margin: 0 auto;
@@ -30,7 +30,7 @@
         background-color: @bg-color-white;
         .border-bottom(0px);
 
-        li{
+        li {
             box-sizing: border-box;
             position: relative;
             float: left;
@@ -58,13 +58,13 @@
     }
 }
 
-.content-body{
+.content-body {
     padding-top: @tabbtn-height * 2 + 11px;
     padding-bottom: 5px;
     min-height: calc(~"100vh - @{tabbtn-height} - 6px");
     background-color: @bg-color;
 
-    .suppliers{
+    .suppliers {
         position: relative;
         .fix;
         margin: 0 0 5px;
@@ -73,40 +73,40 @@
     }
 }
 
-.suppliers-icon{
+.suppliers-icon {
     float: left;
     width: 70px;
     margin-right: 10px;
-    img{
+    img {
         width: 70px;
         height: 70px;
     }
 }
-.suppliers-info{
+.suppliers-info {
     float: left;
     width: calc(~"100% - @{suppliers-side-width} - 60px");
     color: @font-color-one;
 
-    .suppliers-info-title{
+    .suppliers-info-title {
         font-size: @font-size-30;
     }
 
-    .suppliers-info-figure{
+    .suppliers-info-figure {
         font-size: @font-size-24;
         margin: 6px 0;
-        span{
+        span {
             margin-right: 10px;
-            span{
+            span {
                 color: @bg-color-blue-one;
                 margin-right: 3px;
             }
         }
     }
 
-    ul{
+    ul {
         .fix;
 
-        li{
+        li {
             float: left;
             margin-right: 2px;
             font-size: @font-size-26;
@@ -116,14 +116,14 @@
     }
 }
 
-.suppliers-info-tags{
+.suppliers-info-tags {
     color: @font-color-two;
     font-size: @font-size-22;
 
-    .suppliers-info-tags-tag{
+    .suppliers-info-tags-tag {
         margin-top: 5px;
 
-        .tag{
+        .tag {
             display: inline-block;
             width: 13px;
             height: 13px;
@@ -135,7 +135,7 @@
     }
 }
 
-.suppliers-operation{
+.suppliers-operation {
     position: absolute;
     top: 15px;
     right: 12px;
@@ -143,13 +143,20 @@
     font-size: @font-size-22;
     text-align: right;
 
-    .suppliers-operation-distance{
+    .suppliers-operation-distance {
         margin-bottom: 44px;
         font-size: @font-size-26;
     }
 
-    .suppliers-operation-collect{
+    .suppliers-operation-collect {
         //margin-top: 38px;
+        img {
+            position: relative;
+            top: -1px;
+            width: 14px;
+            height: 13px;
+            margin-right: 2px;
+        }
     }
 }
 

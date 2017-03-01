@@ -11,12 +11,12 @@
             </ul>
         </div>
         <div class="content-body">
-            <div class="suppliers" v-for="item in suppliers">
+            <div class="suppliers" v-for="item in suppliersLists">
                 <div class="suppliers-icon">
                     <img src="../assets/suppliers/suppliers.png" />
                 </div>
                 <div class="suppliers-info">
-                    <div class="suppliers-info-title">{{item.text}}</div>
+                    <div class="suppliers-info-title">{{item.name}}</div>
                     <div class="suppliers-info-figure">
                         <span>
                             <span>{{item.digit}}</span>次交易
@@ -43,7 +43,14 @@
                 <div class="suppliers-operation">
                     <div class="suppliers-operation-distance">{{item.distance > 500 ? item.distance/1000 + 'km' : item.distance + 'm'}}</div>
                     <div class="suppliers-operation-collect">
-                        收藏店铺
+                        <div class="collect">
+                            <img src="../assets/suppliers/collect.png" />
+                            <span>收藏店铺</span>
+                        </div>
+                        <div class="collected">
+                            <img src="../assets/suppliers/collected.png" />
+                            <span>已收藏</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -60,6 +67,7 @@
 //    import {router} from '../router'
     import suppliers from '../mock/suppliers'
     import InfiniteLoading from 'vue-infinite-loading'
+    import dataService from '../getData/index'
 
     export default {
         name: 'suppliers',
@@ -72,6 +80,7 @@
                     {text: '消费者保障', id: '4'}
                 ],
                 suppliers: [],
+                suppliersLists: [],
                 type: ''
             }
         },
@@ -79,8 +88,16 @@
             let t = this
             t.suppliers = suppliers.slice(0, 5)
             t.type = this.$route.query.type || '1'
+            t.getSuppliers()
         },
         methods: {
+            getSuppliers: function () {
+                let t = this
+                dataService.getSuppliers().then(function ({data}) {
+                    console.log(data, 222)
+                    t.suppliersLists = data.datalist
+                })
+            },
             onInfinite () {
                 setTimeout(() => {
                     let temp = []
