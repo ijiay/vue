@@ -1,6 +1,7 @@
 export default {
     // 测试url
-    url: 'http://192.168.1.18:8000',
+    // 这里要改
+    url: 'http://192.168.1.15:8000',
     mockData: {
         ver: '1.0',
         device: 1,

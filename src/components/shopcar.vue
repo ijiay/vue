@@ -19,7 +19,7 @@
                 <div>去逛逛</div>
             </div>
             <div class="shopcar-list" v-if="shopCarState != 'none'">
-                <div class="sup-item" v-for="sup in shopCarList">
+                <div class="sup-item" v-for="sup in basketSuppliers">
                     <div class="sup-item-title">
                         <input type="checkbox"
                                v-model="sup.checked"
@@ -27,11 +27,11 @@
                         <label class="check-label"
                                @click="checkSup(sup)"></label>
                         <img src="../assets/shopcar/trademark.png" class="sub-icon">
-                        <span>{{sup.name}}</span>
+                        <span>{{sup.supplier_name}}</span>
                         <span class="right-arrow"></span>
                     </div>
                     <div class="sup-item-list">
-                        <side-swipe v-for="goods in sup.goodsList"
+                        <side-swipe v-for="goods in sup.product_list"
                                     @setstatus="setSideSwipeStatus"
                                     :status="sideSwipeStatusArr"
                                     :touchnum="touchNum"
@@ -44,15 +44,15 @@
                                     <label class="check-label"></label>
                                 </div>
                                 <div class="img">
-                                    <img src="../assets/shopcar/a1.jpg" />
+                                    <img :src="goods.product_pic" />
                                 </div>
                                 <div class="info">
                                     <div class="title">
-                                        <a>{{goods.name}}</a>
+                                        <a>{{goods.product_name}}</a>
                                     </div>
                                     <div class="detail">{{goods.size}}</div>
                                     <div class="other">
-                                        <div class="price">￥{{goods.price}}</div>
+                                        <div class="price">￥{{goods.product_price}}</div>
                                         <div class="num-btn">
                                             <input type="number"
                                                    v-model="goods.currentNum"
@@ -76,7 +76,7 @@
                         </div>
                         <div class="sup-item-total">
                             <span>合计：</span>
-                            <span class="sup-item-total-price">￥{{sup.totalPrice}}</span>
+                            <span class="sup-item-total-price">￥{{sup.summary}}</span>
                         </div>
                     </div>
                 </div>
@@ -112,9 +112,10 @@
 </template>
 
 <script type="text/babel">
-    import shopCarList from '../mock/shop-car'
+//    import shopCarList from '../mock/shop-car'
     import sideSwipe from './sideSwiper.vue'
     import {getIndexOfArrayFromProp} from '../utils'
+    import dataService from '../getData/index'
 
     export default {
         name: 'shopCar',
@@ -125,7 +126,8 @@
             return {
                 // none指的是购物车为空，edit为编辑状态，shopping为有商品时状态
                 shopCarState: 'shopping',
-                shopCarList,
+                shopCarList: [],
+                basketSuppliers: [],
                 // 默认全部不选中
                 checkedAll: false,
                 // 选中的商品种类数量
@@ -140,33 +142,37 @@
         },
         created () {
             let t = this
-            t.shopCarList && t.shopCarList.forEach(function (sup) {
-                t.$set(sup, 'checked', false)
-                t.$set(sup, 'totalPrice', 0)
-                sup.goodsList && sup.goodsList.forEach(function (goods) {
-                    t.$set(goods, 'checked', false)
-                    t.$set(goods, 'btns', [
-                        {
-                            name: '加入收藏',
-                            bgc: '#ccc',
-                            width: '65px',
-                            cb: function () {
-                                window.alert(goods.id)
-                            }
-                        },
-                        {
-                            name: '删除',
-                            width: '65px',
-                            bgc: '#ff2d2d',
-                            cb: function () {
-                                window.alert(goods.id)
-                            }
-                        }
-                    ])
-                })
-            })
+            t.getShopcarList()
         },
         methods: {
+            initGoodsSwipe () {
+                let t = this
+                t.basketSuppliers && t.basketSuppliers.forEach(function (sup) {
+                    t.$set(sup, 'checked', false)
+                    t.$set(sup, 'totalPrice', 0)
+                    sup.product_list && sup.product_list.forEach(function (goods) {
+                        t.$set(goods, 'checked', false)
+                        t.$set(goods, 'btns', [
+                            {
+                                name: '加入收藏',
+                                bgc: '#ccc',
+                                width: '65px',
+                                cb: function () {
+                                    window.alert(goods.id)
+                                }
+                            },
+                            {
+                                name: '删除',
+                                width: '65px',
+                                bgc: '#ff2d2d',
+                                cb: function () {
+                                    window.alert(goods.id)
+                                }
+                            }
+                        ])
+                    })
+                })
+            },
             closeSideSwipes () {
                 let t = this
                 let status = t.sideSwipeStatusArr.some(function (item) {
@@ -264,6 +270,15 @@
                 } else {
                     t.sideSwipeStatusArr[index].isOpened = status.isOpened
                 }
+            },
+
+            getShopcarList: function () {
+                let t = this
+                dataService.getBasket().then(function ({data}) {
+                    t.shopCarList = data.basket_info
+                    t.basketSuppliers = data.basket_info.data_list
+                    t.initGoodsSwipe()
+                })
             }
         }
     }

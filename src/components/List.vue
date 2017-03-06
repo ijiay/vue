@@ -24,20 +24,22 @@
                     <img src="../assets/index/a1.jpg" />
                 </div>
                 <div class="list-category-item-info">
-                    <div class="list-category-item-info-name">{{goodsList.text}}</div>
+                    <div class="list-category-item-info-name">{{goodsList.name}}</div>
                     <div class="list-category-item-info-price">{{goodsList.price}}</div>
                     <div class="list-category-item-info-supply">点击查看供应信息</div>
                 </div>
             </div>
+            <infinite-loading :on-infinite="onInfinite" ref="infiniteLoading">
+                <span slot="no-more">- 没有更多了 -</span>
+                <span slot="no-results">- 没有更多了 -</span>
+            </infinite-loading>
         </div>
     </div>
 </template>
 
 <script type="text/babel">
     import {router} from '../router'
-    import menu from '../mock/menu'
     import childMenu from '../mock/child-menu'
-    import goodsList from '../mock/goods-list'
     import dataService from '../getData/index'
 
     export default {
@@ -45,44 +47,71 @@
         data () {
             return {
                 childMenus: [],
-                currentChildMenuId: '',
+                menus: [],
+                currentChildMenuId: null,
                 goodsLists: [],
-                isToggle: false
+                isToggle: false,
+                pageNumber: 1
             }
         },
         computed: {
-            menus () {
-                return this.$store.state.menus
+            page_number () {
+                return this.pageNumber
             }
         },
         created: function () {
-            let t = this
-            t.menus = menu
-            if (this.$store.state.menus.length === 0) {
-                dataService.getMenus().then(function ({data}) {
-                    t.$store.commit('setMenus', data.category_list)
-                    t.menus = data.category_list
-                    t.getChildMenu(t.$route.params.id)
-                })
-            } else {
-                t.getChildMenu(t.$route.params.id)
-            }
+            // let t = this
         },
         methods: {
+            onInfinite () {
+                let t = this
+                let postData = {
+                    category: parseInt(t.$route.params.id),
+                    subcategory: t.currentChildMenuId,
+                    data_number: 6,
+                    page_number: t.pageNumber
+                }
+                dataService.getListmenus(postData).then(function ({data}) {
+                    // 取到菜单的数据
+                    t.menus = data.category_list
+                    // 当前子菜单默认第一个子类否或者是点击对应点子类id
+                    t.currentChildMenuId = t.currentChildMenuId || t.menus[0].subcategory_list[0].id
+                    t.goodsLists = t.goodsLists.concat(data.datalist)
+                    switch (data.code) {
+                        case 199:
+                            t.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
+                            break
+                        case 411:
+                            t.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
+                            break
+                        default:
+                            window.alert(data.msg)
+                            break
+                    }
+                })
+                t.pageNumber++
+            },
+            resetGoodsList () {
+                let t = this
+                t.goodsLists = []
+                t.pageNumber = 1
+                t.$refs.infiniteLoading.$emit('$InfiniteLoading:reset')
+            },
             parentMenuToggle: function (parentMenu) {
                 let t = this
                 if (parentMenu.id.toString() === t.$route.params.id.toString()) {
                     t.isToggle = !t.isToggle
                 } else {
                     router.push({name: 'list', params: {id: parentMenu.id}})
-                    t.getChildMenu(parentMenu.id)
                     t.isToggle = false
                 }
+                t.currentChildMenuId = parentMenu.subcategory_list[0] && parentMenu.subcategory_list[0].id || null
+                t.resetGoodsList()
             },
             changeChildMenu: function (childMenu) {
                 let t = this
                 t.currentChildMenuId = childMenu.id
-                t.getGoodsList(t.currentChildMenuId)
+                t.resetGoodsList()
             },
             getChildMenu: function (id) {
                 let t = this
@@ -91,13 +120,6 @@
                 })
                 t.currentChildMenuId = t.childMenus.length > 0 ? t.childMenus[0].id : 0
                 t.getGoodsList(t.currentChildMenuId)
-            },
-            getGoodsList: function (id) {
-                let t = this
-                t.goodsLists = goodsList.filter(function (g) {
-                    return g.ChildMenuId === id
-                })
-                console.log(t.goodsLists)
             }
         }
     }

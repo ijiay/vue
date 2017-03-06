@@ -2,13 +2,17 @@
     <div class="index">
         <div class="grid type">
             <div class="col-3" v-for="menu in menus" @click="goToListPage(menu)">
-                <div class="img"></div>
+                <div class="img">
+                    <img :src="menu.pic" />
+                </div>
                 <div>{{menu.name}}</div>
             </div>
-            <div class="col-3">
-                <div class="img"></div>
-                <div>所有分类</div>
-            </div>
+            <!--<div class="col-3">-->
+                <!--<div class="img">-->
+                    <!--<img :src="menu.pic" />-->
+                <!--</div>-->
+                <!--<div>所有分类</div>-->
+            <!--</div>-->
         </div>
 
         <div class="promotion" @click="goToSuppliersPage('供应商')">
@@ -33,10 +37,8 @@
 
 <script type="text/babel">
     import {router} from '../router'
-    // import menu from '../mock/menu'
     import goodsList from '../mock/goods-list'
     import dataService from '../getData/index'
-    // import config from '../config'
 
     export default {
         name: 'index',
@@ -65,7 +67,7 @@
             getList: function () {
                 let t = this
                 dataService.getMenus().then(function ({data}) {
-                    console.log(data.datalist)
+                    console.log(data.category_list)
                     t.$store.commit('setMenus', data.category_list)
                     t.menus = data.category_list
                     t.goodsLists = data.datalist
